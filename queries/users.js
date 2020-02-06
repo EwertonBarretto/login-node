@@ -3,33 +3,34 @@ const { models } = require('../models/index');
 const createUserDefault = async (params) => {
     await models.User.create(
         {
-            username: 'jjbaerao',
-            fullName: 'joao barao',
-            cellPhone: '2312321'
-        }
-    );
-
-    await models.User.create(
-        {
-            username: 'ddavids1',
-            fullName: 'david souza11',
-            cellPhone: '222'
+            fullName: 'Admin Full',
+            login: 'admin',
+            cellPhone: '+55943335',
+            identifier: '55477aSD121',
+            email: 'teste@teste.com',
+            password: '123456',
         }
     );
 };
 
 const createNewUser = async (params) => {
-    await models.User.create(
-        {
-            username: params.username,
-            fullName: params.fullName,
-            cellPhone: params.username
-        }
-    );
+    const result = await models.User.create(
+    {
+        fullName: params.fullName,
+        login: params.login,
+        cellPhone: params.cell,
+        identifier: params.identifier,
+        email: params.email,
+        password: params.password,
+    });
+
+    return result;
 };
 
 const findAll = async () => {
-    return await models.User.findAll();
+    await models.User.findAll().then(users => {
+        return users;
+    });
 };
 
 module.exports = {
