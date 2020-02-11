@@ -19,11 +19,7 @@ app.use('/api', routersApp);
 const eraseDatabaseOnSync = false;
 
 conection.sync({ force: eraseDatabaseOnSync }).then(async () => {
-    app.listen({ port: port }, () => {
-      console.log(`Example app listening on port ${port}!`);
-    });
+  app.listen({ port: port }, () => {
+    console.log(`Example app listening on port ${port}!`);
   });
-  
-// app.listen(port, function () {
-//   console.log(`Example app listening on port ${port}!`);
-// });
+});

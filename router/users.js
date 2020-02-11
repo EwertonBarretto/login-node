@@ -4,16 +4,16 @@ const { models } = require('../models/index');
 
 const router = new Router();
 
-router.get('/', function (req, res) {
-  models.User.findAll().then(users => {
+router.get('/', async (req, res) => {
+  await models.User.findAll().then(users => {
     res.send(users);
   })
 });
 
 router.get('/:id', async (req, res) => {
-  const user = await models.User.findByPk(
-     parseInt(req.params.id)
-    ).then( users => {
+  await models.User.findByPk(
+    parseInt(req.params.id)
+  ).then( users => {
     if (!users)
       res.status(404).send('User not found!');
     else 
@@ -27,8 +27,8 @@ router.post('', async (req, res) => {
     res.status(400).send('Pls insert a name!');
     return;
   }
-  
-  const userNew = await models.User.create(
+
+  await models.User.create(
   {
       fullName: req.body.fullName,
       login: req.body.login,
@@ -36,9 +36,13 @@ router.post('', async (req, res) => {
       identifier: req.body.identifier,
       email: req.body.email,
       password: req.body.password,
+  }).then((info) => {
+    res.status(200).send(info);
+    return;
+  }).catch((err) => {
+    res.status(400).send(err);
+    return;
   });
-
-    res.status(200).send(userNew);
 });
 
 router.put('/:id', async (req, res) => {
@@ -58,11 +62,16 @@ router.put('/:id', async (req, res) => {
     console.log(rows[0]);
     if (rows[0] === 0) {
       res.send('User not found!');
+      return;
     }
     else {
       res.send(`Rows Update:` + rows);
+      return;
     }
-  });
+  }).catch((err) => {
+    res.status(400).send(err);
+    return;
+  });;
 });
 
 router.delete('/:id', async (req, res) => {
@@ -73,13 +82,15 @@ router.delete('/:id', async (req, res) => {
   }).then( (rows) => {
     if (rows === 0) {
       res.send('User not found!');
+      return
     }
     else {
       res.send(`Affected rows:` + rows);
+      return
     }
   }).catch( (err) => {
-    res.send(``+err)
-    console.log(err);
+    res.send(err)
+    return;
   });
 });
 

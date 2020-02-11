@@ -1,7 +1,8 @@
-const conection = require('../databese');
+const conection = require('../database');
 
 const models = {
-  User: conection.import('./users')
+  User: conection.import('./user'),
+  Pet: conection.import('./pet')
 };
 
 Object.keys(models).forEach(key => {
